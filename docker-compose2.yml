@@ -59,3 +59,16 @@ networks:
 #docker compose up -d
 #git remote add origin https://BryanDuranXO:TOKEN@github.com/BryanDuranXO/SGU-BAMD-10D
 #git config --local user.name "BryanDuranXO"
+#@RequestMapping("/adj-api")
+#@CrossOrigin(origins = "*")
+#@RestController
+#public class TestController {
+#    @GetMapping("/test")
+#    public ResponseEntity<?> getMessage() {
+#        HashMap<String, Object> response = new HashMap<>();
+#        response.put("data", "Ok");
+#        response.put("message", "API funcionando");
+#
+#        return new ResponseEntity<>(response, HttpStatus.OK);
+#    }
+#}
