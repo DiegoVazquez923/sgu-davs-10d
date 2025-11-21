@@ -1,0 +1,61 @@
+services:
+    database:
+        image: postgres:13
+        container_name: pg-database
+        environment:
+            POSTGRES_DB: pg-database
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - "5433:5432"
+        networks: 
+            - mi-net
+
+    frontend:
+        image: client:latest
+        build:
+            context: ./client
+            args: 
+                API_HOST: localhost
+                API_PORT: 8081
+                API_BASE: /adj-api
+        container_name: adj-client
+        ports:
+            - "3000:80"
+        networks:
+            - adj-net
+        depends_on:
+            - backend
+    
+    backend:
+        image: server:latest
+        build:
+            context: ./api
+            args:
+              NODE_ENV: production
+              APP_VERSION: 1.0
+        environment:
+            API_PORT: 3001
+            REDIS_HOST: cache
+        container_name: api-service
+        ports:
+            - "3001:3001"
+        networks:
+            - backend-net
+        depends_on:
+            - cache
+
+volumes:
+    adj-volume:
+        external: true
+
+networks:
+    adj-net:
+        external: true
+
+#docker volume create  adj-volume     
+#docker network create --driver bridge adj-net
+#docker compose build --no-cache
+#docker compose up -d
+#git remote add origin https://BryanDuranXO:TOKEN@github.com/BryanDuranXO/SGU-BAMD-10D
+#git config --local user.name "BryanDuranXO"
